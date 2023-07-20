@@ -1,4 +1,4 @@
-import { ProductList } from "@/components/products";
+import { ProductList } from "@/components/products/product-list/ProductList";
 import styles from "./page.module.css";
 import { AlertList } from "@/components/products/alert-list";
 export default function Dashboard() {

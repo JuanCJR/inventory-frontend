@@ -1,25 +1,36 @@
+import { config } from "@/config";
 import ApiHelper from "../ApiHelper";
 import {
   CreateInventoryPayload,
   InventoryInterface,
+  InventoryInterfaceResponse,
+  InventoryQueryParams,
   UpdateInventoryPayload,
 } from "./interface/inventory.interface";
 
 export class Inventory {
   data: InventoryInterface[] = [];
+  baseUrl: string = "";
   urls = {
-    find: `/`,
-    findOne: (id: number) => `/${id}`,
-    create: `/`,
-    delete: (id: number) => `/${id}`,
-    update: (id: number) => `/${id}`,
+    find: (baseURL: string) => `${baseURL}/`,
+    findOne: (baseURL: string, id: number) => `${baseURL}/${id}`,
+    create: (baseURL: string) => `${baseURL}/`,
+    delete: (baseURL: string, id: number) => `${baseURL}/${id}`,
+    update: (baseURL: string, id: number) => `${baseURL}/${id}`,
   };
 
-  async find(): Promise<{ data: InventoryInterface[]; status: number }> {
-    const apiHelper = new ApiHelper<InventoryInterface[]>(
+  constructor() {
+    this.baseUrl = config.api.url;
+  }
+
+  async find(
+    queryParams: InventoryQueryParams
+  ): Promise<{ data: InventoryInterfaceResponse; status: number }> {
+    const apiHelper = new ApiHelper<InventoryInterfaceResponse>(
       "GET",
-      this.urls.find
+      this.urls.find(this.baseUrl)
     );
+    apiHelper.addQueryParams(queryParams);
     return await apiHelper.do();
   }
 
@@ -29,7 +40,7 @@ export class Inventory {
   }> {
     const apiHelper = new ApiHelper<InventoryInterface>(
       "GET",
-      this.urls.findOne(id)
+      this.urls.findOne(this.baseUrl, id)
     );
     return await apiHelper.do();
   }
@@ -40,7 +51,7 @@ export class Inventory {
   }> {
     const apiHelper = new ApiHelper<InventoryInterface>(
       "POST",
-      this.urls.create
+      this.urls.create(this.baseUrl)
     );
     apiHelper.addBody(payload);
     return await apiHelper.do();
@@ -55,7 +66,7 @@ export class Inventory {
   }> {
     const apiHelper = new ApiHelper<InventoryInterface>(
       "PUT",
-      this.urls.update(id)
+      this.urls.update(this.baseUrl, id)
     );
     apiHelper.addBody(payload);
     return await apiHelper.do();
@@ -64,7 +75,7 @@ export class Inventory {
   async delete(id: number) {
     const apiHelper = new ApiHelper<InventoryInterface>(
       "DELETE",
-      this.urls.delete(id)
+      this.urls.delete(this.baseUrl, id)
     );
     return await apiHelper.do();
   }

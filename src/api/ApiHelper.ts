@@ -2,7 +2,6 @@ import { config } from "@/config";
 import axios, { AxiosRequestConfig, Method } from "axios";
 
 export const instance = axios.create({
-  baseURL: config.api.url,
   timeout: 15000,
   //   withCredentials: true,
 });
@@ -25,6 +24,10 @@ export default class ApiHelper<T> {
   constructor(method: Method, url: string) {
     this.url = url;
     this.method = method;
+  }
+
+  addBaseUrl(url: string) {
+    instance.defaults.baseURL = url;
   }
   addUrlParam(urlParam?: string | number) {
     this.url = `${this.url}/${urlParam}`;
@@ -61,7 +64,7 @@ export default class ApiHelper<T> {
       },
       data: this.body,
     };
-    const response = await instance<T>(axiosRequestConfig);
+    const response = await axios<T>(axiosRequestConfig);
     return { data: response.data, status: response.status };
   }
 }
