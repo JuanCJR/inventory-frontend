@@ -1,7 +1,7 @@
 .product_list {
   width: 100%;
   min-width: 150px;
-  height: 80vh;
+  height: 60vh;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   padding: 18px;
 }

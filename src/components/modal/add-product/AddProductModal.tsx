@@ -65,7 +65,7 @@ export const AddProductModal = (props: AddProductModalProps) => {
       />
 
       {/*   Modal  */}
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size={"full"}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader textAlign={"center"}>Agregar Producto</ModalHeader>

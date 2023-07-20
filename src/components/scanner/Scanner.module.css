@@ -10,11 +10,11 @@
 }
 .overlay-figure {
   position: absolute;
-  top: 30%; /* Coloca la figura en el centro vertical */
+  top: 140px; /* Coloca la figura en el centro vertical */
   left: 50%; /* Coloca la figura en el centro horizontal */
   transform: translate(-50%, -50%); /* Centra la figura */
   width: 300px; /* Ajusta el ancho de la figura según lo desees */
-  height: 150px; /* Ajusta la altura de la figura según lo desees */
+  height: 100px; /* Ajusta la altura de la figura según lo desees */
   border: 2px solid white; /* Borde blanco para la figura */
   box-sizing: border-box;
   z-index: 2; /* Asegúrate de que la figura tenga un z-index mayor que el video para que se superponga */

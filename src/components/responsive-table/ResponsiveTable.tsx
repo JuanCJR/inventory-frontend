@@ -37,8 +37,8 @@ export function ResponsiveDataTable<Data extends object>({
   });
 
   return (
-    <TableContainer className={styles.scroll} style={{ height: "70vh" }}>
-      <Table variant="simple" className={`${styles.responsive}`}>
+    <TableContainer className={styles.scroll} style={{ height: "50vh" }}>
+      <Table variant="simple" size={"sm"} className={`${styles.responsive}`}>
         <Thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <Tr key={headerGroup.id}>
