@@ -1,49 +1,99 @@
-import { Center, Heading, Text, useColorMode } from "@chakra-ui/react";
-import DataTable, { TableProps, TableStyles } from "react-data-table-component";
 import {
-  customStyles,
-  paginationComponentOptions,
-} from "./responsiveTableDefiniton";
-import { LoadingData } from "../loading/LoadingPage";
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  chakra,
+} from "@chakra-ui/react";
+import {
+  useReactTable,
+  flexRender,
+  getCoreRowModel,
+  ColumnDef,
+  getSortedRowModel,
+} from "@tanstack/react-table";
 
-interface ResponsiveDataTableProps extends TableProps<any> {
-  height?: string;
-  customTableStyles?: TableStyles;
-  dense?: boolean;
-  onRowClicked?: (row: any, e: React.MouseEvent<Element, MouseEvent>) => void;
-}
+import styles from "./ResponsiveTable.module.css";
 
-export const ResponsiveDataTable = (props: ResponsiveDataTableProps) => {
-  const { colorMode } = useColorMode();
+import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 
-  const tableStyles = { ...customStyles, ...props.customTableStyles };
-  return (
-    <DataTable
-      className="scroll"
-      theme={colorMode === "dark" ? "dark" : "default"}
-      dense={props.dense}
-      title={props.title}
-      paginationComponentOptions={paginationComponentOptions}
-      columns={props.columns}
-      data={props.data}
-      progressPending={props.progressPending}
-      progressComponent={<LoadingData />}
-      fixedHeader={true}
-      fixedHeaderScrollHeight={props.height ? props.height : "400px"}
-      pagination
-      paginationServer
-      paginationTotalRows={props.paginationTotalRows}
-      onChangeRowsPerPage={props.onChangeRowsPerPage}
-      onChangePage={props.onChangePage}
-      onRowClicked={props.onRowClicked}
-      responsive
-      highlightOnHover
-      customStyles={tableStyles}
-      noDataComponent={
-        <Center>
-          <Heading size={"sm"}>No se han encontrado registros.</Heading>
-        </Center>
-      }
-    />
-  );
+export type DataTableProps<Data extends object> = {
+  data: Data[];
+  columns: ColumnDef<Data, any>[];
 };
+
+export function ResponsiveDataTable<Data extends object>({
+  data,
+  columns,
+}: DataTableProps<Data>) {
+  const table = useReactTable({
+    columns,
+    data,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+  });
+
+  return (
+    <TableContainer className={styles.scroll} style={{ height: "70vh" }}>
+      <Table variant="simple" className={`${styles.responsive}`}>
+        <Thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <Tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                // see https://tanstack.com/table/v8/docs/api/core/column-def#meta to type this correctly
+                const meta: any = header.column.columnDef.meta;
+                return (
+                  <Th
+                    key={header.id}
+                    onClick={header.column.getToggleSortingHandler()}
+                    isNumeric={meta?.isNumeric}
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+
+                    <chakra.span pl="4">
+                      {header.column.getIsSorted() ? (
+                        header.column.getIsSorted() === "desc" ? (
+                          <TriangleDownIcon aria-label="sorted descending" />
+                        ) : (
+                          <TriangleUpIcon aria-label="sorted ascending" />
+                        )
+                      ) : null}
+                    </chakra.span>
+                  </Th>
+                );
+              })}
+            </Tr>
+          ))}
+        </Thead>
+        <Tbody>
+          {table.getRowModel().rows.map((row) => (
+            <Tr key={row.id}>
+              {row.getVisibleCells().map((cell) => {
+                {
+                  console.log();
+                }
+                // see https://tanstack.com/table/v8/docs/api/core/column-def#meta to type this correctly
+                const meta: any = cell.column.columnDef.meta;
+                return (
+                  <Td
+                    key={cell.id}
+                    isNumeric={meta?.isNumeric}
+                    data-label={cell.column.columnDef.header}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Td>
+                );
+              })}
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+    </TableContainer>
+  );
+}

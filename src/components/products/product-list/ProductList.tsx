@@ -95,45 +95,9 @@ export const ProductList = () => {
       </div>
 
       <ResponsiveDataTable
-        responsive
         data={productListState.data}
         columns={InventoryColumns}
-        dense={false}
-        progressPending={loadingData}
-        paginationTotalRows={totalRows}
-        onChangeRowsPerPage={handlePerRowsChange}
-        onChangePage={handlePageChange}
       />
-
-      {/* <TableContainer>
-        <Table variant="simple" className={styles.responsive}>
-          <Thead>
-            <Tr>
-              <Th>ID</Th>
-              <Th>Código</Th>
-              <Th>Nombre</Th>
-              <Th>Fecha de Expiración</Th>
-              <Th>Estado</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr>
-              <Td data-label="ID">1</Td>
-              <Td data-label="Código">1</Td>
-              <Td data-label="Nombre">1</Td>
-              <Td data-label="Fecha de Expiración">1</Td>
-              <Td data-label="Estado">1</Td>
-            </Tr>
-            <Tr>
-              <Td data-label="ID">1</Td>
-              <Td data-label="Código">1</Td>
-              <Td data-label="Nombre">1</Td>
-              <Td data-label="Fecha de Expiración">1</Td>
-              <Td data-label="Estado">1</Td>
-            </Tr>
-          </Tbody>
-        </Table>
-      </TableContainer> */}
     </div>
   );
 };

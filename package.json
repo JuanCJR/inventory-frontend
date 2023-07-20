@@ -26,10 +26,10 @@
     "framer-motion": "^10.13.0",
     "next": "13.4.10",
     "react": "18.2.0",
-    "react-data-table-component": "^7.5.3",
     "react-dom": "18.2.0",
     "react-media-devices": "^1.1.1",
     "react-zxing": "^1.1.4",
+    "styled-components": "^6.0.4",
     "typescript": "5.1.6"
   }
 }
