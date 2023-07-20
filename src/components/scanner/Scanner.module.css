@@ -1,0 +1,44 @@
+.scanner {
+  height: 100%;
+}
+
+.scanner video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.overlay-figure {
+  position: absolute;
+  top: 30%; /* Coloca la figura en el centro vertical */
+  left: 50%; /* Coloca la figura en el centro horizontal */
+  transform: translate(-50%, -50%); /* Centra la figura */
+  width: 300px; /* Ajusta el ancho de la figura según lo desees */
+  height: 150px; /* Ajusta la altura de la figura según lo desees */
+  border: 2px solid white; /* Borde blanco para la figura */
+  box-sizing: border-box;
+  z-index: 2; /* Asegúrate de que la figura tenga un z-index mayor que el video para que se superponga */
+}
+
+/* Estilos para las líneas horizontales y verticales */
+.line-horizontal,
+.line-vertical {
+  position: absolute;
+  background-color: white;
+}
+
+.line-horizontal {
+  top: 50%;
+  left: 10%;
+  width: 80%;
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+.line-vertical {
+  top: 10%;
+  left: 50%;
+  width: 2px;
+  height: 80%;
+  transform: translateX(-50%);
+}

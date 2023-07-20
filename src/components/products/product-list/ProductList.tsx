@@ -19,12 +19,16 @@ import {
 import { useEffect, useState } from "react";
 import { Inventory } from "@/api/inventory/Inventory";
 import { InventoryColumns } from "./types/ProductList.columns";
+import { UseRefreshControlProps } from "@/app/states/useRefreshControl";
 const data = [
   { id: 1, codigo: "ABC123", nombre: "Producto 1", estado: "Activo" },
   { id: 2, codigo: "XYZ456", nombre: "Producto 2", estado: "Inactivo" },
 ];
 
-export const ProductList = () => {
+interface ProductListProps extends UseRefreshControlProps {}
+
+export const ProductList = (props: ProductListProps) => {
+  const { refresh, handleSetRefresh } = props;
   const productListState = useComponentArrayData<InventoryInterface>();
   const inventory = new Inventory();
   const [perPage, setPerPage] = useState(10);
@@ -87,6 +91,13 @@ export const ProductList = () => {
   useEffect(() => {
     fetchData(1);
   }, []);
+
+  useEffect(() => {
+    if (refresh) {
+      fetchData(1);
+      handleSetRefresh();
+    }
+  }, [refresh]);
 
   return (
     <div className={styles.product_list}>

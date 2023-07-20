@@ -11,7 +11,7 @@ export interface InventoryInterface {
 export interface CreateInventoryPayload {
   ean: string;
   productName: string;
-  expiresIn: Date;
+  expiresIn: string;
 }
 
 export interface UpdateInventoryPayload {
