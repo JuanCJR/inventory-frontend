@@ -1,0 +1,31 @@
+.main {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 200px 1fr; /* 200px for the sidebar, 1fr for the content (flexible width) */
+  grid-template-rows: 60px 1fr; /* 60px for the navbar, 1fr for the content (flexible height) */
+  grid-template-areas:
+    "navbar navbar"
+    "content content";
+
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); /* Color de fondo con transparencia */
+  border-radius: 8px;
+}
+
+.content {
+  grid-area: content;
+  padding: 20px;
+}
+
+/* Optional styling for a more appealing look */
+.container {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
