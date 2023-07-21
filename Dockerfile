@@ -8,8 +8,8 @@ WORKDIR /var/app
 #COPIA TODO A DIRECTORIO DE APP
 COPY . /var/app
 
-#COPIA .env A DIRECTORIO DE APP
-# COPY .env /var/app/.env
+
+ENV NEXT_PUBLIC_API_URL=/api/inventory/v1
 
 #INSTALACION DE PAQUETES NODE
 RUN npm install
