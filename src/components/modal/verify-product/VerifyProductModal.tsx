@@ -16,52 +16,75 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import React, { use, useEffect, useState } from "react";
-import styles from "./AddProductModal.module.css";
+import styles from "./VerifyProductModal.module.css";
 import { Scanner } from "@/components/scanner/Scanner";
-import { CreateInventoryPayload } from "@/api/inventory/interface/inventory.interface";
+import { InventoryInterface } from "@/api/inventory/interface/inventory.interface";
 import { onChangeSimpleValue } from "@/common/inputHandlers";
 import { Inventory } from "@/api/inventory/Inventory";
 import { UseRefreshControlProps } from "@/app/states/useRefreshControl";
-import { FiPlus } from "react-icons/fi";
+import { FiCamera } from "react-icons/fi";
 
-interface AddProductModalProps extends UseRefreshControlProps {}
-
-export const AddProductModal = (props: AddProductModalProps) => {
-  const { refresh, handleSetRefresh } = props;
-
+export const VerifyProductModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [addManually, setAddManually] = useState(false);
-  const handleChangeAddManually = () => setAddManually(!addManually);
   const [productCode, setProductCode] = useState("");
+  const toast = useToast();
+  const inventory = new Inventory();
   const handleChangeCode = (newProductCode: string) =>
     setProductCode(newProductCode);
 
-  const [product, setProduct] = useState<CreateInventoryPayload>({
+  const [product, setProduct] = useState<InventoryInterface>({
+    id: 0,
     ean: "",
     productName: "",
     expiresIn: "",
+    state: "",
   });
 
   useEffect(() => {
-    setProduct((prev) => ({ ...prev, ean: productCode }));
+    async function load() {
+      if (productCode !== "") {
+        setProduct((prev) => ({ ...prev, ean: productCode }));
+        const productResult = await inventory.findByEan(productCode);
+        if (productResult.status !== 200) {
+          toast({
+            position: "top",
+            title: `Producto no encontrado.`,
+            variant: "solid",
+            isClosable: true,
+            status: "error",
+          });
+          setProduct((state) => ({
+            ...state,
+            id: 0,
+            ean: "",
+            productName: "",
+            expiresIn: "",
+            state: "",
+          }));
+        } else {
+          toast({
+            position: "top",
+            title: `Producto encontrado.`,
+            variant: "solid",
+            isClosable: true,
+            status: "success",
+          });
+          setProduct((state) => ({ ...state, ...productResult.data }));
+        }
+      }
+    }
+    load();
   }, [productCode]);
-
-  const onSubmit = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    const inventory = new Inventory();
-    const result = await inventory.create(product);
-    handleSetRefresh();
-    onClose();
-  };
 
   return (
     <React.Fragment>
       <IconButton
-        aria-label="add product"
-        className={styles.AddProductModalButton}
-        icon={<FiPlus />}
+        aria-label="verify product"
+        className={styles.verifyProductModalButton}
+        icon={<FiCamera />}
         onClick={onOpen}
       />
 
@@ -69,7 +92,9 @@ export const AddProductModal = (props: AddProductModalProps) => {
       <Modal isOpen={isOpen} onClose={onClose} size={"full"}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader textAlign={"center"}>Agregar Producto</ModalHeader>
+          <ModalHeader textAlign={"center"}>
+            Verficiación de Producto
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Box className={styles.modalBodyBox}>
@@ -84,16 +109,16 @@ export const AddProductModal = (props: AddProductModalProps) => {
 
             {/* Add product form */}
             <Box className={styles.productScannedForm}>
-              <form onSubmit={onSubmit}>
+              <form>
                 <FormControl
-                  isDisabled={addManually ? false : true}
+                  isDisabled
                   isRequired
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     onChangeSimpleValue(e, "ean", setProduct);
                   }}
                 >
                   <FormLabel>EAN</FormLabel>
-                  <Input type="text" defaultValue={productCode} />
+                  <Input type="text" defaultValue={product.ean} />
                 </FormControl>
 
                 <FormControl
@@ -102,7 +127,7 @@ export const AddProductModal = (props: AddProductModalProps) => {
                   }}
                 >
                   <FormLabel>Nombre del Producto</FormLabel>
-                  <Input type="text" />
+                  <Input type="text" defaultValue={product.productName} />
                 </FormControl>
 
                 <FormControl
@@ -112,24 +137,25 @@ export const AddProductModal = (props: AddProductModalProps) => {
                   }}
                 >
                   <FormLabel>Fecha de Vencimiento</FormLabel>
-                  <Input type="date" />
+                  <Input type="date" defaultValue={product.expiresIn} />
+                </FormControl>
+
+                <FormControl
+                  isRequired
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    onChangeSimpleValue(e, "state", setProduct);
+                  }}
+                >
+                  <FormLabel>Estado</FormLabel>
+                  <Input type="text" defaultValue={product.state} />
                 </FormControl>
 
                 <Button variant={"outline"} colorScheme="blue" type="submit">
-                  Guardar
+                  Actualizar
                 </Button>
               </form>
             </Box>
           </ModalBody>
-          <ModalFooter>
-            <Button
-              w={"100%"}
-              onClick={handleChangeAddManually}
-              isDisabled={addManually}
-            >
-              Agregar manualmente
-            </Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </React.Fragment>

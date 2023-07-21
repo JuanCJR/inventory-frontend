@@ -14,6 +14,7 @@ export class Inventory {
   urls = {
     find: (baseURL: string) => `${baseURL}/`,
     findOne: (baseURL: string, id: number) => `${baseURL}/${id}`,
+    findByEan: (baseURL: string, ean: string) => `${baseURL}/ean/${ean}`,
     create: (baseURL: string) => `${baseURL}/`,
     delete: (baseURL: string, id: number) => `${baseURL}/${id}`,
     update: (baseURL: string, id: number) => `${baseURL}/${id}`,
@@ -41,6 +42,17 @@ export class Inventory {
     const apiHelper = new ApiHelper<InventoryInterface>(
       "GET",
       this.urls.findOne(this.baseUrl, id)
+    );
+    return await apiHelper.do();
+  }
+
+  async findByEan(ean: string): Promise<{
+    data: InventoryInterface;
+    status: number;
+  }> {
+    const apiHelper = new ApiHelper<InventoryInterface>(
+      "GET",
+      this.urls.findByEan(this.baseUrl, ean)
     );
     return await apiHelper.do();
   }
