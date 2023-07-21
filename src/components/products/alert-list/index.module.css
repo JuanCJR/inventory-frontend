@@ -2,7 +2,10 @@
   width: 100%;
   min-width: 150px;
   height: 80vh;
-  background-color: rgb(42, 165, 122);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 18px;
+  background-color: #75c2f9;
+  color: whitesmoke;
 }
 
 @media (min-width: 800px) {

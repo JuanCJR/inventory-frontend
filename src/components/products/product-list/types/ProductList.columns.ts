@@ -1,6 +1,5 @@
 import { InventoryInterface } from "@/api/inventory/interface/inventory.interface";
 import { createColumnHelper } from "@tanstack/react-table";
-import { TableColumn } from "react-data-table-component";
 
 const columnHelper = createColumnHelper<InventoryInterface>();
 
@@ -21,8 +20,20 @@ export const InventoryColumns = [
     cell: (expiresIn) => expiresIn.getValue(),
     header: "Fecha de caducidad",
   }),
+  columnHelper.accessor("removeDate", {
+    cell: (removeDate) => removeDate.getValue(),
+    header: "Fecha de retiro",
+  }),
   columnHelper.accessor("state", {
     cell: (state) => state.getValue(),
     header: "Estado",
+  }),
+  columnHelper.accessor("leftDaysToRemove", {
+    cell: (leftDaysToRemove) => leftDaysToRemove.getValue(),
+    header: "Retirar en (días)",
+  }),
+  columnHelper.accessor("daysBeforeRemove", {
+    cell: (daysBeforeRemove) => daysBeforeRemove.getValue(),
+    header: "Regla de Retiro (dias)",
   }),
 ];

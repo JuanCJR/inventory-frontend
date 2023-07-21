@@ -41,6 +41,9 @@ export const VerifyProductModal = () => {
     productName: "",
     expiresIn: "",
     state: "",
+    daysBeforeRemove: 0,
+    leftDaysToRemove: 0,
+    removeDate: "",
   });
 
   useEffect(() => {
@@ -82,9 +85,10 @@ export const VerifyProductModal = () => {
   return (
     <React.Fragment>
       <IconButton
+        bg={"white"}
         aria-label="verify product"
         className={styles.verifyProductModalButton}
-        icon={<FiCamera />}
+        icon={<FiCamera color={"#75c2f9"} />}
         onClick={onOpen}
       />
 

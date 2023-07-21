@@ -6,12 +6,16 @@ export interface InventoryInterface {
   productName: string;
   expiresIn: string;
   state: string;
+  daysBeforeRemove: number;
+  leftDaysToRemove: number;
+  removeDate: string;
 }
 
 export interface CreateInventoryPayload {
   ean: string;
   productName: string;
   expiresIn: string;
+  daysBeforeRemove: number;
 }
 
 export interface UpdateInventoryPayload {

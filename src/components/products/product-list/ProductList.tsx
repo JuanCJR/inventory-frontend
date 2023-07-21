@@ -9,6 +9,7 @@ import {
   Th,
   Td,
   TableContainer,
+  Icon,
 } from "@chakra-ui/react";
 import { Heading } from "@chakra-ui/react";
 import { useComponentArrayData } from "@/states/useComponentArrayData";
@@ -20,6 +21,7 @@ import { useEffect, useState } from "react";
 import { Inventory } from "@/api/inventory/Inventory";
 import { InventoryColumns } from "./types/ProductList.columns";
 import { UseRefreshControlProps } from "@/app/states/useRefreshControl";
+import { FiList, FiPackage } from "react-icons/fi";
 const data = [
   { id: 1, codigo: "ABC123", nombre: "Producto 1", estado: "Activo" },
   { id: 2, codigo: "XYZ456", nombre: "Producto 2", estado: "Inactivo" },
@@ -102,7 +104,12 @@ export const ProductList = (props: ProductListProps) => {
   return (
     <div className={styles.product_list}>
       <div className={styles.product_list_title}>
-        <Heading size={"lg"}>Lista de Productos</Heading>
+        <div>
+          <Icon as={FiList} boxSize={8} color={"#75c2f9"} />
+        </div>
+        <Heading color={"#75c2f9"} size={"lg"} mb={2}>
+          Lista de Productos
+        </Heading>
       </div>
 
       <ResponsiveDataTable

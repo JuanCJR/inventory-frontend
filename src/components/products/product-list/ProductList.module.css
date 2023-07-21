@@ -8,12 +8,17 @@
 
 .product_list_title {
   margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-align: center;
 }
 
 @media (min-width: 800px) {
   .product_list {
     width: 67%;
     margin-right: 18px;
+    height: 80vh;
   }
 }
 

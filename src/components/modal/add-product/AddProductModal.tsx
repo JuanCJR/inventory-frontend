@@ -16,6 +16,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import React, { use, useEffect, useState } from "react";
 import styles from "./AddProductModal.module.css";
@@ -30,6 +31,7 @@ interface AddProductModalProps extends UseRefreshControlProps {}
 
 export const AddProductModal = (props: AddProductModalProps) => {
   const { refresh, handleSetRefresh } = props;
+  const toast = useToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [addManually, setAddManually] = useState(false);
@@ -42,6 +44,7 @@ export const AddProductModal = (props: AddProductModalProps) => {
     ean: "",
     productName: "",
     expiresIn: "",
+    daysBeforeRemove: 0,
   });
 
   useEffect(() => {
@@ -52,16 +55,34 @@ export const AddProductModal = (props: AddProductModalProps) => {
     e.preventDefault();
     const inventory = new Inventory();
     const result = await inventory.create(product);
-    handleSetRefresh();
-    onClose();
+    if (result.status !== 201) {
+      toast({
+        position: "top",
+        title: `El producto ya se encuentra registrado.`,
+        variant: "solid",
+        isClosable: true,
+        status: "error",
+      });
+    } else {
+      toast({
+        position: "top",
+        title: `Producto registrado con exito`,
+        variant: "solid",
+        isClosable: true,
+        status: "success",
+      });
+      handleSetRefresh();
+      onClose();
+    }
   };
 
   return (
     <React.Fragment>
       <IconButton
+        bg={"white"}
         aria-label="add product"
         className={styles.AddProductModalButton}
-        icon={<FiPlus />}
+        icon={<FiPlus color={"#75c2f9"} />}
         onClick={onOpen}
       />
 
@@ -113,6 +134,16 @@ export const AddProductModal = (props: AddProductModalProps) => {
                 >
                   <FormLabel>Fecha de Vencimiento</FormLabel>
                   <Input type="date" />
+                </FormControl>
+
+                <FormControl
+                  isRequired
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    onChangeSimpleValue(e, "daysBeforeRemove", setProduct);
+                  }}
+                >
+                  <FormLabel>Retirar antes de(dias)</FormLabel>
+                  <Input type="number" />
                 </FormControl>
 
                 <Button variant={"outline"} colorScheme="blue" type="submit">

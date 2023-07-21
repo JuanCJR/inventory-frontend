@@ -13,6 +13,7 @@ export class Inventory {
   baseUrl: string = "";
   urls = {
     find: (baseURL: string) => `${baseURL}/`,
+    findAlerts: (baseURL: string) => `${baseURL}/alert`,
     findOne: (baseURL: string, id: number) => `${baseURL}/${id}`,
     findByEan: (baseURL: string, ean: string) => `${baseURL}/ean/${ean}`,
     create: (baseURL: string) => `${baseURL}/`,
@@ -30,6 +31,17 @@ export class Inventory {
     const apiHelper = new ApiHelper<InventoryInterfaceResponse>(
       "GET",
       this.urls.find(this.baseUrl)
+    );
+    apiHelper.addQueryParams(queryParams);
+    return await apiHelper.do();
+  }
+
+  async alerts(
+    queryParams: InventoryQueryParams
+  ): Promise<{ data: InventoryInterfaceResponse; status: number }> {
+    const apiHelper = new ApiHelper<InventoryInterfaceResponse>(
+      "GET",
+      this.urls.findAlerts(this.baseUrl)
     );
     apiHelper.addQueryParams(queryParams);
     return await apiHelper.do();
