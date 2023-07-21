@@ -1,22 +1,20 @@
-"use client";
-import { ResponsiveDataTable } from "@/components/responsive-table/ResponsiveTable";
-import styles from "./ProductList.module.css";
-import { Icon } from "@chakra-ui/react";
-import { Heading } from "@chakra-ui/react";
-import { useComponentArrayData } from "@/states/useComponentArrayData";
+import { Inventory } from "@/api/inventory/Inventory";
 import {
   InventoryInterface,
   InventoryQueryParams,
 } from "@/api/inventory/interface/inventory.interface";
+import { useComponentArrayData } from "@/states/useComponentArrayData";
 import { useEffect, useState } from "react";
-import { Inventory } from "@/api/inventory/Inventory";
-import { InventoryColumns } from "./types/ProductList.columns";
+import styles from "./AlertList.module.css";
 import { UseRefreshControlProps } from "@/app/states/useRefreshControl";
-import { FiList } from "react-icons/fi";
+import { Heading, Icon } from "@chakra-ui/react";
+import { FiFlag } from "react-icons/fi";
+import { ResponsiveDataTable } from "@/components/responsive-table/ResponsiveTable";
+import { AlertListColums } from "./types/AlertList.columns";
 
-interface ProductListProps extends UseRefreshControlProps {}
+interface AlertListProps extends UseRefreshControlProps {}
 
-export const ProductList = (props: ProductListProps) => {
+export const AlertList = (props: AlertListProps) => {
   const { refresh, handleSetRefresh } = props;
   const productListState = useComponentArrayData<InventoryInterface>();
   const inventory = new Inventory();
@@ -41,7 +39,7 @@ export const ProductList = (props: ProductListProps) => {
       take: perPage,
     };
 
-    const response = await inventory.find(queryParams);
+    const response = await inventory.findAlerts(queryParams);
     if (response.status !== 200) {
       productListState.cleanState();
       setTotalRows(0);
@@ -67,7 +65,7 @@ export const ProductList = (props: ProductListProps) => {
       take: newPerPage,
     };
 
-    const response = await inventory.find(queryParams);
+    const response = await inventory.findAlerts(queryParams);
 
     productListState.setData((state) => ({
       ...state,
@@ -89,19 +87,19 @@ export const ProductList = (props: ProductListProps) => {
   }, [refresh]);
 
   return (
-    <div className={styles.product_list}>
-      <div className={styles.product_list_title}>
+    <div className={styles.alert_list}>
+      <div className={styles.alert_list_title}>
         <div>
-          <Icon as={FiList} boxSize={8} color={"#75c2f9"} />
+          <Icon as={FiFlag} boxSize={8} color={"#75c2f9"} />
         </div>
-        <Heading color={"#75c2f9"} size={"lg"} mb={2}>
-          Lista de Productos
+        <Heading size={"lg"} mb={2} color={"#75c2f9"}>
+          Alertas
         </Heading>
       </div>
 
       <ResponsiveDataTable
         data={productListState.data}
-        columns={InventoryColumns}
+        columns={AlertListColums}
       />
     </div>
   );

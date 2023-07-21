@@ -36,7 +36,7 @@ export class Inventory {
     return await apiHelper.do();
   }
 
-  async alerts(
+  async findAlerts(
     queryParams: InventoryQueryParams
   ): Promise<{ data: InventoryInterfaceResponse; status: number }> {
     const apiHelper = new ApiHelper<InventoryInterfaceResponse>(

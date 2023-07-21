@@ -1,22 +1,30 @@
 "use client";
-import { ResponsiveDataTable } from "@/components/responsive-table/ResponsiveTable";
-import styles from "./ProductList.module.css";
-import { Icon } from "@chakra-ui/react";
-import { Heading } from "@chakra-ui/react";
-import { useComponentArrayData } from "@/states/useComponentArrayData";
+import {
+  IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import styles from "./AlertsModal.module.css";
 import {
   InventoryInterface,
   InventoryQueryParams,
 } from "@/api/inventory/interface/inventory.interface";
-import { useEffect, useState } from "react";
 import { Inventory } from "@/api/inventory/Inventory";
-import { InventoryColumns } from "./types/ProductList.columns";
 import { UseRefreshControlProps } from "@/app/states/useRefreshControl";
-import { FiList } from "react-icons/fi";
+import { FiCamera, FiFlag } from "react-icons/fi";
+import { useComponentArrayData } from "@/states/useComponentArrayData";
+import { ResponsiveDataTable } from "@/components/responsive-table/ResponsiveTable";
+import { AlertListColums } from "@/components/products/alert-list/types/AlertList.columns";
+interface AlertsModalProps extends UseRefreshControlProps {}
 
-interface ProductListProps extends UseRefreshControlProps {}
-
-export const ProductList = (props: ProductListProps) => {
+export const AlertsModal = (props: AlertsModalProps) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { refresh, handleSetRefresh } = props;
   const productListState = useComponentArrayData<InventoryInterface>();
   const inventory = new Inventory();
@@ -41,7 +49,7 @@ export const ProductList = (props: ProductListProps) => {
       take: perPage,
     };
 
-    const response = await inventory.find(queryParams);
+    const response = await inventory.findAlerts(queryParams);
     if (response.status !== 200) {
       productListState.cleanState();
       setTotalRows(0);
@@ -67,7 +75,7 @@ export const ProductList = (props: ProductListProps) => {
       take: newPerPage,
     };
 
-    const response = await inventory.find(queryParams);
+    const response = await inventory.findAlerts(queryParams);
 
     productListState.setData((state) => ({
       ...state,
@@ -89,20 +97,29 @@ export const ProductList = (props: ProductListProps) => {
   }, [refresh]);
 
   return (
-    <div className={styles.product_list}>
-      <div className={styles.product_list_title}>
-        <div>
-          <Icon as={FiList} boxSize={8} color={"#75c2f9"} />
-        </div>
-        <Heading color={"#75c2f9"} size={"lg"} mb={2}>
-          Lista de Productos
-        </Heading>
-      </div>
-
-      <ResponsiveDataTable
-        data={productListState.data}
-        columns={InventoryColumns}
+    <div>
+      <IconButton
+        bg={"white"}
+        aria-label="verify product"
+        className={styles.alertModalButton}
+        icon={<FiFlag color={"#75c2f9"} />}
+        onClick={onOpen}
       />
+
+      {/*   Modal  */}
+      <Modal isOpen={isOpen} onClose={onClose} size={"full"}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader textAlign={"center"}>Alertas</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <ResponsiveDataTable
+              data={productListState.data}
+              columns={AlertListColums}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

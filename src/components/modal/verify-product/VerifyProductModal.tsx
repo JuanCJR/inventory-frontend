@@ -15,6 +15,10 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Table,
+  Td,
+  Th,
+  Tr,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -45,7 +49,6 @@ export const VerifyProductModal = () => {
     leftDaysToRemove: 0,
     removeDate: "",
   });
-
   useEffect(() => {
     async function load() {
       if (productCode !== "") {
@@ -76,6 +79,7 @@ export const VerifyProductModal = () => {
             status: "success",
           });
           setProduct((state) => ({ ...state, ...productResult.data }));
+          console.log(productResult.data);
         }
       }
     }
@@ -113,51 +117,42 @@ export const VerifyProductModal = () => {
 
             {/* Add product form */}
             <Box className={styles.productScannedForm}>
-              <form>
-                <FormControl
-                  isDisabled
-                  isRequired
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    onChangeSimpleValue(e, "ean", setProduct);
-                  }}
-                >
-                  <FormLabel>EAN</FormLabel>
-                  <Input type="text" defaultValue={product.ean} />
-                </FormControl>
+              <Table>
+                <Tr>
+                  <Th>ID</Th>
+                  <Td>{product.id}</Td>
+                </Tr>
+                <Tr>
+                  <Th>EAN</Th>
+                  <Td>{product.ean}</Td>
+                </Tr>
+                <Tr>
+                  <Th>Nombre</Th>
+                  <Td>{product.productName}</Td>
+                </Tr>
+                <Tr>
+                  <Th>Fecha de Expiración</Th>
+                  <Td>{product.expiresIn}</Td>
+                </Tr>
 
-                <FormControl
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    onChangeSimpleValue(e, "productName", setProduct);
-                  }}
-                >
-                  <FormLabel>Nombre del Producto</FormLabel>
-                  <Input type="text" defaultValue={product.productName} />
-                </FormControl>
+                <Tr>
+                  <Th>Fecha de Retiro</Th>
+                  <Td>{product.removeDate}</Td>
+                </Tr>
 
-                <FormControl
-                  isRequired
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    onChangeSimpleValue(e, "expiresIn", setProduct);
-                  }}
-                >
-                  <FormLabel>Fecha de Vencimiento</FormLabel>
-                  <Input type="date" defaultValue={product.expiresIn} />
-                </FormControl>
-
-                <FormControl
-                  isRequired
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    onChangeSimpleValue(e, "state", setProduct);
-                  }}
-                >
-                  <FormLabel>Estado</FormLabel>
-                  <Input type="text" defaultValue={product.state} />
-                </FormControl>
-
-                <Button variant={"outline"} colorScheme="blue" type="submit">
-                  Actualizar
-                </Button>
-              </form>
+                <Tr>
+                  <Th>Regla de Retiro (dias)</Th>
+                  <Td>{product.daysBeforeRemove}</Td>
+                </Tr>
+                <Tr>
+                  <Th>Retirar en</Th>
+                  <Td>{product.leftDaysToRemove} dias</Td>
+                </Tr>
+                <Tr>
+                  <Th>Estado</Th>
+                  <Td>{product.state}</Td>
+                </Tr>
+              </Table>
             </Box>
           </ModalBody>
         </ModalContent>
