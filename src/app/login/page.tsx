@@ -31,7 +31,7 @@ export default function Login() {
     if (localStorage.getItem("isLogged")) {
       router.push(`/dashboard/${localStorage.getItem("storeId")}`);
     }
-  }, []);
+  }, [router]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
