@@ -12,13 +12,14 @@ export class Inventory {
   data: InventoryInterface[] = [];
   baseUrl: string = "";
   urls = {
-    find: (baseURL: string) => `${baseURL}/`,
-    findAlerts: (baseURL: string) => `${baseURL}/alert`,
-    findOne: (baseURL: string, id: number) => `${baseURL}/${id}`,
-    findByEan: (baseURL: string, ean: string) => `${baseURL}/ean/${ean}`,
-    create: (baseURL: string) => `${baseURL}/`,
-    delete: (baseURL: string, id: number) => `${baseURL}/${id}`,
-    update: (baseURL: string, id: number) => `${baseURL}/${id}`,
+    find: (baseURL: string) => `${baseURL}/inventory`,
+    findAlerts: (baseURL: string) => `${baseURL}/inventory/alert`,
+    findOne: (baseURL: string, id: number) => `${baseURL}/inventory/${id}`,
+    findByEan: (baseURL: string, ean: string) =>
+      `${baseURL}/inventory/ean/${ean}`,
+    create: (baseURL: string) => `${baseURL}/inventory`,
+    delete: (baseURL: string, id: number) => `${baseURL}/inventory/${id}`,
+    update: (baseURL: string, id: number) => `${baseURL}/inventory/${id}`,
   };
 
   constructor() {
