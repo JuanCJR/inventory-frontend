@@ -12,10 +12,12 @@ import { FiFlag } from "react-icons/fi";
 import { ResponsiveDataTable } from "@/components/responsive-table/ResponsiveTable";
 import { AlertListColums } from "./types/AlertList.columns";
 
-interface AlertListProps extends UseRefreshControlProps {}
+interface AlertListProps extends UseRefreshControlProps {
+  id: string;
+}
 
 export const AlertList = (props: AlertListProps) => {
-  const { refresh, handleSetRefresh } = props;
+  const { refresh, handleSetRefresh, id } = props;
   const productListState = useComponentArrayData<InventoryInterface>();
   const inventory = new Inventory();
   const [perPage, setPerPage] = useState(10);
@@ -37,6 +39,7 @@ export const AlertList = (props: AlertListProps) => {
     let queryParams: InventoryQueryParams = {
       page,
       take: perPage,
+      store_id: Number(id),
     };
 
     const response = await inventory.findAlerts(queryParams);

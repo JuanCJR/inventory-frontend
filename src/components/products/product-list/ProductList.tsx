@@ -14,10 +14,12 @@ import { InventoryColumns } from "./types/ProductList.columns";
 import { UseRefreshControlProps } from "@/app/states/useRefreshControl";
 import { FiList } from "react-icons/fi";
 
-interface ProductListProps extends UseRefreshControlProps {}
+interface ProductListProps extends UseRefreshControlProps {
+  id: string;
+}
 
 export const ProductList = (props: ProductListProps) => {
-  const { refresh, handleSetRefresh } = props;
+  const { refresh, handleSetRefresh, id } = props;
   const productListState = useComponentArrayData<InventoryInterface>();
   const inventory = new Inventory();
   const [perPage, setPerPage] = useState(10);
@@ -39,6 +41,7 @@ export const ProductList = (props: ProductListProps) => {
     let queryParams: InventoryQueryParams = {
       page,
       take: perPage,
+      store_id: Number(id),
     };
 
     const response = await inventory.find(queryParams);

@@ -8,21 +8,35 @@ import { VerifyProductModal } from "@/components/modal/verify-product/VerifyProd
 import { AlertsModal } from "@/components/modal/alerts/AlertsModal";
 
 import { useRefreshControl } from "../../states/useRefreshControl";
-export default function Dashboard() {
+export default function Dashboard({ params }: { params: { storeId: string } }) {
+  const { storeId } = params;
   const { refresh, handleSetRefresh } = useRefreshControl();
   return (
     <div className={styles.dashboard_container}>
-      <ProductList refresh={refresh} handleSetRefresh={handleSetRefresh} />
-      <AlertList refresh={refresh} handleSetRefresh={handleSetRefresh} />
+      <ProductList
+        refresh={refresh}
+        handleSetRefresh={handleSetRefresh}
+        id={storeId}
+      />
+      <AlertList
+        refresh={refresh}
+        handleSetRefresh={handleSetRefresh}
+        id={storeId}
+      />
 
       <FlexSection>
         <VerifyProductModal />
 
-        <AlertsModal refresh={refresh} handleSetRefresh={handleSetRefresh} />
+        <AlertsModal
+          refresh={refresh}
+          handleSetRefresh={handleSetRefresh}
+          id={storeId}
+        />
 
         <AddProductModal
           refresh={refresh}
           handleSetRefresh={handleSetRefresh}
+          id={storeId}
         />
       </FlexSection>
     </div>

@@ -14,9 +14,10 @@ export class UserApiHandler {
   urls = {
     find: (baseURL: string) => `${baseURL}/user`,
     login: (baseURL: string) => `${baseURL}/login`,
-    create: (baseURL: string) => `${baseURL}/`,
+    create: (baseURL: string) => `${baseURL}/user`,
+    findOne: (baseURL: string, id: number) => `${baseURL}/user/${id}`,
     delete: (baseURL: string, id: number) => `${baseURL}/user/${id}`,
-    update: (baseURL: string, id: number) => `${baseURL}/user${id}`,
+    update: (baseURL: string, id: number) => `${baseURL}/user/${id}`,
   };
 
   constructor() {
@@ -31,6 +32,17 @@ export class UserApiHandler {
       this.urls.find(this.baseUrl)
     );
     apiHelper.addQueryParams(queryParams);
+    return await apiHelper.do();
+  }
+
+  async findOne(id: number): Promise<{
+    data: User;
+    status: number;
+  }> {
+    const apiHelper = new ApiHelper<User>(
+      "GET",
+      this.urls.findOne(this.baseUrl, id)
+    );
     return await apiHelper.do();
   }
 

@@ -21,11 +21,13 @@ import { FiCamera, FiFlag } from "react-icons/fi";
 import { useComponentArrayData } from "@/states/useComponentArrayData";
 import { ResponsiveDataTable } from "@/components/responsive-table/ResponsiveTable";
 import { AlertListColums } from "@/components/products/alert-list/types/AlertList.columns";
-interface AlertsModalProps extends UseRefreshControlProps {}
+interface AlertsModalProps extends UseRefreshControlProps {
+  id: string;
+}
 
 export const AlertsModal = (props: AlertsModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { refresh, handleSetRefresh } = props;
+  const { refresh, handleSetRefresh, id } = props;
   const productListState = useComponentArrayData<InventoryInterface>();
   const inventory = new Inventory();
   const [perPage, setPerPage] = useState(10);
@@ -47,6 +49,7 @@ export const AlertsModal = (props: AlertsModalProps) => {
     let queryParams: InventoryQueryParams = {
       page,
       take: perPage,
+      store_id: Number(id),
     };
 
     const response = await inventory.findAlerts(queryParams);

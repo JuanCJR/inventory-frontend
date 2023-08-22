@@ -27,10 +27,12 @@ import { Inventory } from "@/api/inventory/Inventory";
 import { UseRefreshControlProps } from "@/app/states/useRefreshControl";
 import { FiPlus } from "react-icons/fi";
 
-interface AddProductModalProps extends UseRefreshControlProps {}
+interface AddProductModalProps extends UseRefreshControlProps {
+  id: string;
+}
 
 export const AddProductModal = (props: AddProductModalProps) => {
-  const { refresh, handleSetRefresh } = props;
+  const { refresh, handleSetRefresh, id } = props;
   const toast = useToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -45,6 +47,7 @@ export const AddProductModal = (props: AddProductModalProps) => {
     productName: "",
     expiresIn: "",
     daysBeforeRemove: 0,
+    store_id: Number(id),
   });
 
   useEffect(() => {

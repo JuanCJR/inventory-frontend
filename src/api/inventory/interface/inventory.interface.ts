@@ -16,6 +16,7 @@ export interface CreateInventoryPayload {
   productName: string;
   expiresIn: string;
   daysBeforeRemove: number;
+  store_id: number;
 }
 
 export interface UpdateInventoryPayload {
@@ -28,6 +29,7 @@ export interface UpdateInventoryPayload {
 export interface InventoryQueryParams {
   page: number;
   take: number;
+  store_id?: number;
 }
 
 export interface InventoryInterfaceResponse {
