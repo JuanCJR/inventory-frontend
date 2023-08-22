@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: grid;
   grid-template-columns: 200px 1fr; /* 200px for the sidebar, 1fr for the content (flexible width) */
-  grid-template-rows: 60px 1fr; /* 60px for the navbar, 1fr for the content (flexible height) */
+  grid-template-rows: 80px 1fr; /* 60px for the navbar, 1fr for the content (flexible height) */
   grid-template-areas:
     "navbar navbar"
     "content content";

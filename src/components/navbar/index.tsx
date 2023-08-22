@@ -107,10 +107,10 @@ export const NavBar = () => {
         alignItems={"center"}
       >
         <div className={styles.navbar_icon}>
-          <Icon as={FiPackage} boxSize={10} />
+          <Icon as={FiPackage} boxSize={8} />
         </div>
 
-        <Heading size={"lg"}>
+        <Heading size={{ xs: "xs", md: "lg" }}>
           Control de Vencimiento {isLogged && `-  ${store.name}`}
         </Heading>
       </Flex>
@@ -118,9 +118,11 @@ export const NavBar = () => {
       {isLogged && (
         <Box alignContent={"end"} mr={5}>
           <HStack>
-            <Heading size={"sm"}>Usuario: {user.username}</Heading>
+            <Heading size={{ xs: "xs", md: "sm" }}>
+              Usuario: {user.username}
+            </Heading>
             <Button
-              size={"sm"}
+              size={{ xs: "sm", md: "md" }}
               onClick={() => {
                 localStorage.removeItem("isLogged");
                 localStorage.removeItem("storeId");
