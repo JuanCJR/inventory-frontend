@@ -54,7 +54,7 @@ export default function StoresPage() {
 
   useEffect(() => {
     fetchData(1);
-  }, [fetchData]);
+  }, []);
 
   return (
     <VStack

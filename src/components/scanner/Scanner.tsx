@@ -20,10 +20,18 @@ export const Scanner = (props: ScannerProps) => {
 
   const deviceId = devices?.[2]?.deviceId;
   const [devicesUsed, setDevicesUsed] = useState(deviceId);
-
   const { ref } = useZxing({
-    // paused: !deviceId,
     deviceId: devicesUsed,
+    timeBetweenDecodingAttempts: 200,
+    constraints: {
+      video: {
+        width: { ideal: 1920 }, // Ancho ideal
+        height: { ideal: 1080 }, // Alto ideal
+        facingMode: "environment", // Cámara trasera
+        frameRate: { ideal: 30 }, // Tasa de cuadros ideal
+        aspectRatio: { ideal: 1.7778 }, // Relación de aspecto ideal (16:9)
+      },
+    },
     onResult(result) {
       handleChangeCode(result.getText());
     },
