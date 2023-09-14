@@ -18,7 +18,7 @@ export interface CreateInventoryPayload {
   expiresIn: string;
   daysBeforeRemove: number;
   store_id: number;
-  quantity: number;
+  quantity: string;
 }
 
 export interface UpdateInventoryPayload {
