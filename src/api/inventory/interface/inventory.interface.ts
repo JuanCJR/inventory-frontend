@@ -9,6 +9,7 @@ export interface InventoryInterface {
   daysBeforeRemove: number;
   leftDaysToRemove: number;
   removeDate: string;
+  quantity: number;
 }
 
 export interface CreateInventoryPayload {
@@ -17,6 +18,7 @@ export interface CreateInventoryPayload {
   expiresIn: string;
   daysBeforeRemove: number;
   store_id: number;
+  quantity: number;
 }
 
 export interface UpdateInventoryPayload {

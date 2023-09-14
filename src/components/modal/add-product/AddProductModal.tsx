@@ -48,6 +48,7 @@ export const AddProductModal = (props: AddProductModalProps) => {
     expiresIn: "",
     daysBeforeRemove: 0,
     store_id: Number(id),
+    quantity: 0,
   });
 
   useEffect(() => {
@@ -127,6 +128,15 @@ export const AddProductModal = (props: AddProductModalProps) => {
                 >
                   <FormLabel>Nombre del Producto</FormLabel>
                   <Input type="text" />
+                </FormControl>
+
+                <FormControl
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    onChangeSimpleValue(e, "quatity", setProduct);
+                  }}
+                >
+                  <FormLabel>Cantidad</FormLabel>
+                  <Input type="number" />
                 </FormControl>
 
                 <FormControl

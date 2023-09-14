@@ -48,6 +48,7 @@ export const VerifyProductModal = () => {
     daysBeforeRemove: 0,
     leftDaysToRemove: 0,
     removeDate: "",
+    quantity: 0,
   });
   useEffect(() => {
     async function load() {
@@ -129,6 +130,10 @@ export const VerifyProductModal = () => {
                 <Tr>
                   <Th>Nombre</Th>
                   <Td>{product.productName}</Td>
+                </Tr>
+                <Tr>
+                  <Th>Cantidad</Th>
+                  <Td>{product.quantity}</Td>
                 </Tr>
                 <Tr>
                   <Th>Fecha de Expiración</Th>

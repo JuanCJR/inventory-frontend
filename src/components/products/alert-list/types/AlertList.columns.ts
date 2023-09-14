@@ -8,6 +8,10 @@ export const AlertListColums = [
     cell: (productName) => productName.getValue(),
     header: "Producto",
   }),
+  columnHelper.accessor("quantity", {
+    cell: (quantity) => quantity.getValue(),
+    header: "Cantidad",
+  }),
   columnHelper.accessor("state", {
     cell: (state) => state.getValue(),
     header: "Estado",

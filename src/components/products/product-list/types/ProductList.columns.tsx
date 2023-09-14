@@ -30,6 +30,10 @@ export const InventoryColumns = [
     cell: (productName) => productName.getValue(),
     header: "Producto",
   }),
+  columnHelper.accessor("quantity", {
+    cell: (quantity) => quantity.getValue(),
+    header: "Cantidad",
+  }),
   columnHelper.accessor("expiresIn", {
     cell: (expiresIn) => expiresIn.getValue(),
     header: "Fecha de caducidad",
