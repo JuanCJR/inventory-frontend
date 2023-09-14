@@ -1,6 +1,5 @@
 #RESCATA IMAGEN DE NODE
-FROM node:16-alpine
-
+FROM node:16
 
 
 #CREA DIRECTORIO Y/O SE POSICIONS EN EL
@@ -24,4 +23,3 @@ EXPOSE 3000
 
 #Configure this container for running as an executable.
 ENTRYPOINT [ "/var/app/entrypoint.sh" ]
-CMD [ "npm", "run" ,"start" ]
